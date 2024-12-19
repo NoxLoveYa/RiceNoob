@@ -1,51 +1,113 @@
 {
 	"layer": "top",
-    "position": "bottom",
-	"modules-left": ["custom/launcher","cpu","memory","custom/media","tray"],
-	"modules-center": ["window-title"],
-	"modules-right": ["clock", "battery"],
+	"position": "bottom",
+	"mod": "dock",
+	"height": 40,
+	"exclusive": true,
+	"passthrough": false,
+	"gtk-layer-shell": true,
+	"margin": "0px 0px 0px 0px",
 
+	"modules-left": ["hyprland/workspaces", "cpu", "memory", "network"],
+	"modules-center": ["wlr/taskbar"],
+	"modules-right": ["pulseaudio", "power-profiles-daemon", "battery", "clock"],
+
+    "power-profiles-daemon": {
+		"format": "{profile} {icon}",
+		"tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+		"tooltip": true,
+		"format-icons": {
+			"default": "",
+			"performance": "",
+			"balanced": "",
+			"power-saver": ""
+		}
+	},
 	"network": {
-		"tooltip": false,
-		"format-wifi": "  {essid}",
-		"format-ethernet": ""
+		// "interface": "wlp2*", // (Optional) To force the use of this interface
+		"format-wifi": "{essid} ({signalStrength}%) ",
+		"format-ethernet": "{ipaddr}/{cidr} ",
+		"tooltip-format": "{ifname} via {gwaddr} ",
+		"format-linked": "{ifname} (No IP) ",
+		"format-disconnected": "Disconnected ⚠",
+		"on-click": "nm-connection-editor"
 	},
-	"backlight": {
-		"tooltip": false,
-		"format": " {}%",
-		"interval":1,
-        "on-scroll-up": "light -A 5",
-		"on-scroll-down": "light -U 5"
+	"pulseaudio": {
+		// "scroll-step": 1, // %, can be a float
+		"format": "{icon} {volume}%  {format_source}",
+		"format-bluetooth": "{icon} {volume}%  {format_source}",
+		"format-bluetooth-muted": " {icon} {format_source}",
+		"format-muted": " {format_source}",
+		"format-source": " {volume}%",
+		"format-source-muted": "",
+		"format-icons": {
+			"headphone": "",
+			"hands-free": "",
+			"headset": "",
+			"phone": "",
+			"portable": "",
+			"car": "",
+			"default": ["", "", ""]
+		},
+		"on-click": "pavucontrol"
 	},
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 20
-        },
-        "format": "{icon}  {capacity}%",
-        "format-charging": " {capacity}%",
-        "format-plugged": " {capacity}%",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["", "", "", "", ""]
-    },
-	"tray":{
-		"icon-size":18,
-		"spacing": 10
+
+	"cpu": {
+		"interval": 1,
+		"format": "{usage}% ",
+        "tooltip": true
 	},
-    "cpu": {
-        "interval": 1,
-        "format": " {}%",
-        "max-length": 10
-    },
-    "memory": {
-        "interval": 1,
-        "format": " {}%",
-        "max-length": 10
-    },
-    "custom/launcher":{
-        "format": " ",
-        "on-click": "rofi -show drun",
-        "on-click-right": "killall rofi"
-    }
+
+	"memory": {
+		"interval": 1,
+		"format": "{percentage}% 󰾆",
+		"format-alt": "{used}GB 󰾅",
+		"max-length": 10,
+		"tooltip": true,
+		"tooltip-format": "{used:0.1f}GB/{total:0.1f}GB "
+	},
+
+	"battery": {
+		"format": "{icon} {capacity}%",
+		"format-icons": ["", "", "", "", ""],
+		"format-charging": " {capacity}% {icon}",
+		"interval": 5,
+		"states": {
+			"warning": 25,
+			"critical": 10
+		},
+		"tooltip": true
+	},
+
+	"clock": {
+		"format": "{:%H:%M:%S}",
+		"format-alt": "{:%H:%M:%S %d %b %Y}",
+		"tooltip-format": "{calendar}",
+		"interval": 1
+	},
+
+	"hyprland/workspaces": {
+		"format": "{icon}",
+		"on-click": "activate",
+		"sort-by-number": true
+	},
+
+	"wlr/taskbar": {
+		"format": "{icon}",
+		"icon-size": 24,
+		"icon-theme": "We10x-black-dark",
+		"tooltip-format": "{title}",
+		"on-click": "activate",
+		"on-click-middle": "close",
+		"ignore-list": [],
+		"active-first": false,
+		"app_ids-mapping": {
+			"firefoxdeveloperedition": "firefox-developer-edition"
+		}
+	},
+
+	"tray": {
+		"icon-size": 16,
+		"spacing": 8
+	}
 }
