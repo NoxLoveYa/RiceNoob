@@ -37,5 +37,4 @@ echo "preload = ~/.config/wallpapers/$image_name
 wallpaper = , ~/.config/wallpapers/$image_name
 " > ~/.config/hypr/hyprpaper.conf
 
-
 echo "Wallpaper changed successfully!"
